@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <cmath>
+#include <cstdlib>
 
 namespace work
 {
@@ -10,6 +11,7 @@ namespace work
     using std::vector;
     using std::cout;
     using std::endl;
+    using std::atof;
 
     class point
     {
@@ -27,20 +29,23 @@ namespace work
         static constexpr double maxDeflection = 0.0025;
         static const int SF = 3;
         static const int maxTensileStress = 40000;
-        static const int maxShearStrength = 26000;
-        static const int maxBearingStrength = 56000;
+        static const int maxShearStress = 26000;
+        static const int maxBearingStress = 56000;
 
         string name;
-        double arm, span, other;
-        double momentOfInertia;
-        double shearStress;
-        double bendingStress;
+        string shape;
+        double arm, span, other, armSpanRatio;
+        double web, momentOfInertia, sectionModulus;
+        double maxAllowShear, pctAllowShear, deflection;
+        double armShear, otherShear;
+        double maxBending, maxShear;
+        double shearStress, bendingStress;
         point armPoint;
         point otherPoint;
         point takeoffPoint;
 
-        void armCalc();
-        void spanCalc();
+        void coordinatesCalc();
+        void lengthsCalc();
         void beamSelect();
 
         private:
@@ -51,5 +56,10 @@ namespace work
         static const vector<double> _beamList_area;
         static const vector<double> _beamList_I;
         static const vector<double> _beamList_S;
+        static const vector<double> _beamList_minHoleDia;
+        static const vector<double> _beamList_maxHoleDia;
+        static const vector<int> _beamList_maxBearingPlate;
+        static const vector<double> _beamList_maxAllowShear;
+
     };
 }
